@@ -25,4 +25,4 @@ The API listens on the local URL shown by `dotnet run`. The Angular dev server a
 - `POST /api/projects` with JSON such as `{"name":"Website","description":"First project"}`
 - `DELETE /api/projects/{id}`
 
-The projects table is stored in SQL Server. The sample connection string is in `ProjectManagement.Api/appsettings.json`; change it if you use another SQL Server instance or authentication mode. Encryption is disabled for this local development connection because SQL Server is on the same machine and its installer did not configure forced encryption. `EnsureCreated` creates an initial database schema; use EF Core migrations for future schema updates.
+The projects and ASP.NET Identity tables are stored in SQL Server. The sample connection string is in `ProjectManagement.Api/appsettings.json`; change it if you use another SQL Server instance or authentication mode. Encryption is disabled for this local development connection because SQL Server is on the same machine and its installer did not configure forced encryption. EF Core migrations create and update the schema.

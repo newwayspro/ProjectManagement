@@ -105,18 +105,21 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-// ── Middleware ────────────────────────────────────────────────
-if (app.Environment.IsDevelopment())
+// ── Swagger (يشتغل دايماً) ────────────────────────────────────
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectManagement API v1"));
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectManagement API v1");
+    c.RoutePrefix = string.Empty; // يفتح Swagger مباشرة على http://localhost:PORT/
+    c.DocumentTitle = "ProjectManagement API";
+});
 
 app.UseCors("Angular");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/", () => Results.Ok(new { message = "ProjectManagement API is running" }));
+// إعادة توجيه الجذر لـ Swagger تلقائياً
+app.MapGet("/api", () => Results.Ok(new { message = "ProjectManagement API is running ✅", swagger = "/index.html" }));
 app.MapControllers();
 
 app.Run();

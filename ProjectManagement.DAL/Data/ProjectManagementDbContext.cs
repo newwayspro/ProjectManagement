@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.DAL.Entities;
 
 namespace ProjectManagement.DAL.Data;
 
 public sealed class ProjectManagementDbContext(DbContextOptions<ProjectManagementDbContext> options)
-    : DbContext(options)
+    : IdentityDbContext<AppUser>(options)
 {
     public DbSet<Project> Projects => Set<Project>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Project>(entity =>
         {
             entity.ToTable("Projects");
